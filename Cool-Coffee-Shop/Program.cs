@@ -6,6 +6,8 @@ namespace Cool_Coffee_Shop
     {
         static void Main(string[] args)
         {
+            CoffeeShopApp.Run();
+
             Console.WriteLine("Super Cool Coffee Shop Program!");
             Console.ReadKey();
         }
