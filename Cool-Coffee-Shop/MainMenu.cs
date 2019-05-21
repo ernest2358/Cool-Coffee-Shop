@@ -7,6 +7,7 @@ namespace Cool_Coffee_Shop
     class MainMenu
     {
 
+<<<<<<< HEAD
         // Needs to include:
         // Create new order
                 //Wit
@@ -15,5 +16,7 @@ namespace Cool_Coffee_Shop
 
 
 
+=======
+>>>>>>> b259c66cb329be499a2ec56fb8490bba021dbfe7
     }
 }
