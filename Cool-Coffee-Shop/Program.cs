@@ -6,10 +6,13 @@ namespace Cool_Coffee_Shop
     {
         static void Main(string[] args)
         {
-            CoffeeShopApp.Run();
+            var coffeeShop = new CoffeeShopApp();
+            coffeeShop.Run();
 
-            Console.WriteLine("Super Cool Coffee Shop Program!");
+            Console.WriteLine("\n\n===================================");
+            Console.WriteLine("End of Demo. Press any key to exit.");
             Console.ReadKey();
+
         }
     }
 
