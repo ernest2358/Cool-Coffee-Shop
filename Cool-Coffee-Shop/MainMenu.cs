@@ -6,5 +6,14 @@ namespace Cool_Coffee_Shop
 {
     class MainMenu
     {
+
+        // Needs to include:
+        // Create new order
+                //Wit
+        // quit program
+
+
+
+
     }
 }
