@@ -3,28 +3,56 @@ using System.Collections.Generic;
 
 namespace Cool_Coffee_Shop
 {
-    public class Order : Product
+    public class Order
     {
+        private static int orderCounter = 1000;
+        public int OrderID { get; set; }
+        public string CustomerName { get; set; }
+        public List<OrderLine> OrderList { get; set; }
+
         public Order()
         {
-            //Should we create a list of categories (list of [Lists of products]???) Or the opposite way around?
-            var category = new List<string>();
-            category.Add("coffee");
-            //Should list of products be displayed here?  Or only list selectedProducts in listOfPro
-            foreach (var product in listOfProducts)
-            {
-                Console.WriteLine(product);
-            }
-                //Or a bunch of conditionals can be met if a user choses which ever product
-            CoolIcedJoe();
+            orderCounter++;
+            OrderID = orderCounter;
+
+            OrderList = new List<OrderLine>();
+
+
         }
-        //Functions to invoke an order    OR should these be interfaces?
-        public Product AddToAnOrder()
+        public void AddToAnOrder(Product addedProduct, int qty)
         {
-
+            OrderList.Add(new OrderLine(addedProduct, qty));
         }
 
-        public Product RemoveFromAnOrder()
+        //public Product RemoveFromAnOrder()
+        //{
+
+        //}
+
+        private void TotalOrder(float taxRate)
+        {
+            // Subtotal perhaps add these as properties of the class
+            // Taxes
+            // Grandtotal
+        }
+
+        public void Pay()
+        {
+            TotalOrder(0.06f);
+
+            // Choose Payment type. Switch to Specific payment process.
+        }
+        public void PayCash() { }
+        public void PayCredit() { }
+        public void PayCheck() { }
+
+        public void Cancel()
+        {
+            Console.WriteLine($"Order {OrderID} has been cancelled. Press any key to return to main menu.");
+            Console.ReadKey();
+            // return to main menu
+        }
+        public void PrintReceipt()
         {
 
         }
