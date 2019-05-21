@@ -6,5 +6,6 @@ namespace Cool_Coffee_Shop
 {
     class MainMenu
     {
+
     }
 }
