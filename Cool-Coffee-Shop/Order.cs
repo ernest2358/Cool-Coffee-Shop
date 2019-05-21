@@ -41,6 +41,30 @@ namespace Cool_Coffee_Shop
             TotalOrder(0.06f);
 
             // Choose Payment type. Switch to Specific payment process.
+            while (true)
+            {
+                //if (Enum.TryParse(typeof(PaymentType), Console.ReadLine(), out PaymentType input))
+                // get input of type PaymentType
+                var input = PaymentType.Cash;
+                {
+                    switch (input)
+                    {
+                        case PaymentType.Cash:
+                            PayCash();
+                            return;
+                        case PaymentType.Credit:
+                            PayCredit();
+                            return;
+                        case PaymentType.Check:
+                            PayCheck();
+                            return;
+                        default:
+                            Console.WriteLine("Unknown Payment Type.");
+                            break;
+                    }
+                }
+                Console.Write("Input error: Please try again: ");
+            }
         }
         public void PayCash() { }
         public void PayCredit() { }
