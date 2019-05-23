@@ -15,15 +15,38 @@ namespace Cool_Coffee_Shop
             Console.WriteLine("Super Cool Coffee Shop Program!");
 
 
+            //Below, added some menu options and if statement (take in selection maybe chagne a bit*tryParse*)
             // Main menu - 1. create order, 2. exit, 3. Add new product. 4. Remove product from product list.
-
+            var mainMenu = new MainMenu(productList) ;
+            Console.WriteLine("Welcome to the Cool Coffee Shop, please press enter: ");
+            Console.ReadKey();
+            if (true)
+            {
+                mainMenu.RunMainMenu();
+            }
             Console.WriteLine("Welcome to the main menu: ");
-            Console.WriteLine("1 - Create Order, 2 - Exit Coffee Shop App");
+            //
+            Console.WriteLine("Please make a selection between options 1-4");
+
+            Console.WriteLine("1 - Create Order, 2 - Add a new product to menu, 3 - Remove a product from the menu 4 - Exit Coffee Shop App");
+            var userSelection = int.Parse(Console.ReadLine());
+            if (userSelection == 1)
+            {
+                CreateOrder(productList);
+            }
+            else if (userSelection == 2)
+            {
+                
+            }
+            //
             // probably a switch method to navigate to "Create Order" Menu
-
             CreateOrder(productList);
+        }
 
-
+        public void AddToAnOrder(Product addedProduct, int qty)
+        {
+            var OrderList = new List<OrderLine>();
+            OrderList.Add(new OrderLine(addedProduct, qty));
         }
 
         public void CreateOrder(List<Product> productList)
@@ -40,7 +63,6 @@ namespace Cool_Coffee_Shop
 
             // When finished, total order and pay with:
             currentOrder.Pay();
-
 
             currentOrder.Cancel();
         }
