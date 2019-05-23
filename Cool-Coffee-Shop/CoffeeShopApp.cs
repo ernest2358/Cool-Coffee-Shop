@@ -44,6 +44,7 @@ namespace Cool_Coffee_Shop
 
         public void AddToAnOrder(Product addedProduct, int qty)
         {
+            var OrderList = new List<OrderLine>();
             OrderList.Add(new OrderLine(addedProduct, qty));
         }
 
