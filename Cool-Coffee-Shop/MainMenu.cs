@@ -8,13 +8,14 @@ namespace Cool_Coffee_Shop
     {
         public List<Product> ListOfProducts { get; set; }
 
-
         public MainMenu(List<Product> productList)
         {
             ListOfProducts = productList;
         }
         public void RunMainMenu()
         {
+            Console.Clear();
+
             //var runOrderMenu = new OrderMenu();
             //Above the compiler does not like this
 
@@ -23,9 +24,8 @@ namespace Cool_Coffee_Shop
             var userSelection = int.Parse(Console.ReadLine());
 
             if (userSelection == 1)
-            {   //Trying to make selcetion 1 go to the OrderMenu
-                //runOrderMenu.RunOrderMenu();
-                //view above
+            {
+                CreateNewOrder();
             }
             else if (userSelection == 2)
             {
@@ -39,6 +39,11 @@ namespace Cool_Coffee_Shop
             {
                 Console.WriteLine("Have a great day. Goodbye!!");
             }
+        }
+        private void CreateNewOrder()
+        {
+            var orderMenu = new OrderMenu(ListOfProducts);
+            orderMenu.RunOrderMenu();
         }
 
     }
