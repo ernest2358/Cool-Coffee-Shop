@@ -10,7 +10,7 @@ namespace Cool_Coffee_Shop
         public string Description { get; set; }
         public double Price { get; set; }
 
-        public Product(string name, string category, string desc, double price)
+        public Product(string name, string cateogory, string desc, double price)
         {
             Name = name;
             Cateogory = category;
