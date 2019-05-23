@@ -16,9 +16,8 @@ namespace Cool_Coffee_Shop
             OrderID = orderCounter;
 
             OrderList = new List<OrderLine>();
-
-
         }
+
         public void AddToAnOrder(Product addedProduct, int qty)
         {
             OrderList.Add(new OrderLine(addedProduct, qty));
