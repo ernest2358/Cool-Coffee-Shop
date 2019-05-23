@@ -9,6 +9,7 @@ namespace Cool_Coffee_Shop
         public void Run()
         {
             var productList = CreateProductList();
+            
 
             // Welcome message (Header block)
             Console.WriteLine("Super Cool Coffee Shop Program!");
@@ -68,20 +69,8 @@ namespace Cool_Coffee_Shop
 
         public List<Product> CreateProductList()
         {
-            var productList = new List<Product>();
-            productList.Add(new Product("#1 Cool Cup of Joe", "coffee", "The best cup of coffee in the land. Cocoa beans from Columbia topped off with 3 cups of cream and 3 sugar.", 4.99));
-            productList.Add(new Product("#2 Coffee Black", "coffee", "Our freshly brewed black coffee with cocoa beans from Columbia for our real coffee lovers.", 2.99));
-            productList.Add(new Product("#3 Cool Iced Coffee", "coffee", "Our flavorful iced coffee drink served to perfection. Cocoa beans from Columbia topped off with 3 cups of cream and 3 sugar,", 5.99));
-            productList.Add(new Product("#4 Caramel Frappuccino", "coffee", "Delicious frappuccino made with cocoa beans from Columbia, with whipped cream and a delightful caramel drizzle to top it off.", 5.99));
-            productList.Add(new Product("#5 Double Chocolate Frappuccino", "coffee", "Delicious frappuccino made with cocoa beans from Columbia, with whipped cream and a delightful chocolate drizzle to top it off.", 5.99));
-            productList.Add(new Product("#6 Vanilla Bean Frappuccino", "coffee", "Delicious frappuccino made with cocoa beans from Columbia, with whipped cream to top it off.", 5.99));
-            productList.Add(new Product("#7 Peach Citrus White Tea", "tea", "Freshly brewed white iced tea with a sensation peach flavor taste.", 4.99));
-            productList.Add(new Product("#8 Cool Green Tea", "tea", "Freshly brewed green iced tea with an irresistible taste that will keep you coming back for more.", 4.99));
-            productList.Add(new Product("#9 Hot Chocolate", "hot chocolate", "Hot Chocolate”, A warm cup of hot chocolate, with a taste perfect for anytime of the day", 5.99));
-            productList.Add(new Product("#10 Bottle Water", "water", "A refreshing bottle of Ice Mountain natural spring water", 1.99));
-            productList.Add(new Product("#11 Bagel", "food", "A plain toasted bagel with cream cheese", 1.99));
-            productList.Add(new Product("#12 Cool Cookie", "food", "A delicious chocolate chip cookie that will melt into your taste buds", 1.99));
-            return productList;
+            var seed = new SeedDB();
+            return seed.Run();
         }
 
         public static void PrintMenu(List<Product> productList)
