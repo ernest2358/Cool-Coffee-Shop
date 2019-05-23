@@ -7,7 +7,6 @@ namespace Cool_Coffee_Shop
         static void Main(string[] args)
         {
             var coffeeShop = new CoffeeShopApp();
-
             coffeeShop.Run();
 
             Console.WriteLine("\n\n===================================");
