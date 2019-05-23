@@ -7,9 +7,17 @@ namespace Cool_Coffee_Shop
 {
     public class SeedDB
     {
+        public string OutputDirectory { get; set; }
+        public string FileLocation { get; set; }
+
+        public SeedDB()
+        {
+            OutputDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
+            FileLocation = "../../../../seeddata.txt";
+        }
         public List<Product> Run()
         {
-            if (System.IO.File.Exists("seeddata.txt"))
+            if (System.IO.File.Exists(FileLocation))
             {
                 Console.Write("Loading product list...");
                 return LoadProducts();
@@ -24,7 +32,7 @@ namespace Cool_Coffee_Shop
         private List<Product> LoadProducts()
         {
             var productList = new List<Product>();
-            using (var reader = new StreamReader("seeddata.txt"))
+            using (var reader = new StreamReader(FileLocation))
             {
                 while (!reader.EndOfStream)
                 {
@@ -38,7 +46,7 @@ namespace Cool_Coffee_Shop
         }
         public void AddNewProduct(Product newProduct)
         {
-            using (var writer = new StreamWriter("seeddata.txt"))
+            using (var writer = new StreamWriter(FileLocation))
             {
                 //writer.WriteLine($"{newProduct.Name},{newProduct.Cateogory},{newProduct.Description},{newProduct.Price.ToString()}");
                 //writer.Flush();
