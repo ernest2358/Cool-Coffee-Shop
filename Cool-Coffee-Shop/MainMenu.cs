@@ -8,6 +8,7 @@ namespace Cool_Coffee_Shop
     {
         public List<Product> ListOfProducts { get; set; }
 
+
         public MainMenu(List<Product> productList)
         {
             ListOfProducts = productList;
@@ -39,6 +40,7 @@ namespace Cool_Coffee_Shop
                 Console.WriteLine("Have a great day. Goodbye!!");
             }
         }
+
     }
 
 }
