@@ -7,6 +7,10 @@ namespace Cool_Coffee_Shop
         static void Main(string[] args)
         {
             var coffeeShop = new CoffeeShopApp();
+
+            var seed = new SeedDB();
+            seed.AddNewProduct(new Product("Thing", "Things", "It's a thing!", 500));
+
             coffeeShop.Run();
 
             Console.WriteLine("\n\n===================================");
