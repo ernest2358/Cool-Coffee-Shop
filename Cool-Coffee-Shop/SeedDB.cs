@@ -24,7 +24,7 @@ namespace Cool_Coffee_Shop
             }
             else
             {
-                Console.Write("Error: Product List file not found. No products loaded.\nPress any key to continue:");
+                Console.WriteLine("Error: Product List file not found. No products loaded...");
                 Console.ReadKey();
                 return null;
             }
@@ -46,13 +46,8 @@ namespace Cool_Coffee_Shop
         }
         public void AddNewProduct(Product newProduct)
         {
-            // using (var writer = new StreamWriter(DataFile))
-            {
-                //writer.WriteLine($"{newProduct.Name},{newProduct.Cateogory},{newProduct.Description},{newProduct.Price.ToString()}");
-                //writer.Flush();
-            }
+            var product = new String($"\n{newProduct.Name},{newProduct.Cateogory},{newProduct.Description},{newProduct.Price.ToString()}");
+            File.AppendAllText(DataFile, product);
         }
     }
 }
-
-// https://docs.microsoft.com/en-us/dotnet/api/system.io.file?view=netframework-4.8
