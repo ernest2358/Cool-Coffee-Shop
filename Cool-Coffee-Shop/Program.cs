@@ -12,7 +12,6 @@ namespace Cool_Coffee_Shop
             Console.WriteLine("\n\n===================================");
             Console.WriteLine("End of Demo. Press any key to exit.");
             Console.ReadKey();
-
         }
     }
 

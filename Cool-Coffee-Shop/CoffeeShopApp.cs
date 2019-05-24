@@ -9,21 +9,29 @@ namespace Cool_Coffee_Shop
         public void Run()
         {
             var productList = CreateProductList();
-            
+            if (productList == null) return;
 
             // Welcome message (Header block)
             Console.WriteLine("Super Cool Coffee Shop Program!");
+            var header = new HeaderBar(64);
+            header.DrawHeader();
 
 
+            //Below, added some menu options and if statement (take in selection maybe chagne a bit*tryParse*)
             // Main menu - 1. create order, 2. exit, 3. Add new product. 4. Remove product from product list.
+            var mainMenu = new MainMenu(productList) ;
+            Console.WriteLine("Welcome to the Cool Coffee Shop, please press enter: ");
+            Console.ReadKey();
+            if (true)
+            {
+                mainMenu.RunMainMenu();
+            }
+        }
 
-            Console.WriteLine("Welcome to the main menu: ");
-            Console.WriteLine("1 - Create Order, 2 - Exit Coffee Shop App");
-            // probably a switch method to navigate to "Create Order" Menu
-
-            CreateOrder(productList);
-
-
+        public void AddToAnOrder(Product addedProduct, int qty)
+        {
+            var OrderList = new List<OrderLine>();
+            OrderList.Add(new OrderLine(addedProduct, qty));
         }
 
         public void CreateOrder(List<Product> productList)
@@ -40,7 +48,6 @@ namespace Cool_Coffee_Shop
 
             // When finished, total order and pay with:
             currentOrder.Pay();
-
 
             currentOrder.Cancel();
         }

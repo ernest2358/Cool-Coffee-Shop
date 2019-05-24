@@ -13,7 +13,7 @@ namespace Cool_Coffee_Shop
         public Product(string name, string category, string desc, double price)
         {
             Name = name;
-            Cateogory = Cateogory;
+            Cateogory = category;
             Description = desc;
             Price = price;
         }
