@@ -16,16 +16,11 @@ namespace Cool_Coffee_Shop
             var header = new HeaderBar(64);
             header.DrawHeader();
 
-
             //Below, added some menu options and if statement (take in selection maybe chagne a bit*tryParse*)
             // Main menu - 1. create order, 2. exit, 3. Add new product. 4. Remove product from product list.
             var mainMenu = new MainMenu(productList) ;
-            Console.WriteLine("Welcome to the Cool Coffee Shop, please press enter: ");
-            Console.ReadKey();
-            if (true)
-            {
-                mainMenu.RunMainMenu();
-            }
+            mainMenu.RunMainMenu();
+
         }
 
         public void AddToAnOrder(Product addedProduct, int qty)
