@@ -20,24 +20,27 @@ namespace Cool_Coffee_Shop
             //Above the compiler does not like this
 
             Console.WriteLine("Please make a selection between options 1-4");
-            Console.WriteLine("1 - Create Order, 2 - Add a new product to menu, 3 - Remove a product from the menu 4 - Exit Coffee Shop App");
-            var userSelection = int.Parse(Console.ReadLine());
-
-            if (userSelection == 1)
+            Console.WriteLine("1 - Create an Order, 2 - Add a new product to menu, 3 - Remove a product from the menu 4 - Exit Coffee Shop App");
+            var userSelection = int.TryParse(Console.ReadLine(), out int result);             if (result == 1)
             {
                 CreateNewOrder();
             }
-            else if (userSelection == 2)
+            //****Possibly remove 2 and 3 options???
+            else if (result == 2)
             {
-                //addNewProduct .  but does orderLine effect this??
+                //addNewProduct to the menu(SeedDB) (brand new product on the menu, ask for: string name, string category, string description, int price)
             }
-            else if (userSelection == 3)
+            else if (result == 3)
             {
-                //removeProduct
+                //removeProduct from menu (SeedDB)()
+            }
+            else if (result == 4)
+            {
+                Console.WriteLine("Have a great day. Goodbye!!");
             }
             else
             {
-                Console.WriteLine("Have a great day. Goodbye!!");
+                Console.WriteLine("The value you have entered is invalid. Please try again.");
             }
         }
         private void CreateNewOrder()
