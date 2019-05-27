@@ -16,11 +16,8 @@ namespace Cool_Coffee_Shop
             var header = new HeaderBar(64);
             header.DrawHeader();
 
-            //Below, added some menu options and if statement (take in selection maybe chagne a bit*tryParse*)
-            // Main menu - 1. create order, 2. exit, 3. Add new product. 4. Remove product from product list.
             var mainMenu = new MainMenu(productList) ;
             mainMenu.RunMainMenu();
-
         }
 
         public void AddToAnOrder(Product addedProduct, int qty)
@@ -29,6 +26,7 @@ namespace Cool_Coffee_Shop
             OrderList.Add(new OrderLine(addedProduct, qty));
         }
 
+        //I believe this is redundant, covered through menu classes.... Have not deleted yet wait until up to date 
         public void CreateOrder(List<Product> productList)
         {
             var currentOrder = new Order();
@@ -46,6 +44,7 @@ namespace Cool_Coffee_Shop
 
             currentOrder.Cancel();
         }
+        //Until this point ****** create product List 
 
         public List<Product> CreateProductList()
         {

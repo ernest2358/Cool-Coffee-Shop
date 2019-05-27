@@ -25,7 +25,25 @@ namespace Cool_Coffee_Shop
         {
             OrderList.Add(new OrderLine(addedProduct, qty));
         }
-        //public Product RemoveFromAnOrder() { }
+                //Right now Remove from order does nothing
+                //Attempted to print the current order and have the user select what they would like to remove but items in orderlist are not appearring. for and foreach loop
+                //Should it be a perimeter of type Product to remove the specific Product Item   
+        public void RemoveFromAnOrder() 
+        {
+            for (var i = 1; i <= OrderList.Count; i++)
+            {
+                Console.WriteLine($"{ i} - { OrderList[i - 1].Item}");
+            }
+            /*
+            foreach (var item in OrderList)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("Which product would you like to remove from your order list?");
+            var productRemoved = Console.ReadLine();
+            */
+        }
+
         public void CalculateTotal(List<OrderLine> OrderList)
         {
             TotalOrder = CalculateSubTotal(OrderList) + CalculateTaxRate(OrderList);
@@ -48,9 +66,13 @@ namespace Cool_Coffee_Shop
         {
             CalculateTotal(OrderList);
 
+            //***Prompt user to select their payment type of choice
             // Choose Payment type. Switch to Specific payment process.
             while (true)
             {
+                Console.WriteLine($"How would you like to pay for your order? Please select options 0-2: \n0 - Cash, 1 - Crdeit/Debit, 2 - Check");                 //*** Maybe no need for Enum Payment Type, just ask for an int and switch  should follow?***                  var paymentType = int.TryParse(Console.ReadLine(), out int result);                 switch (result)                 {                     case 0:                         PayCash();                         return;                     case 1:                         PayCredit();                         return;                     case 2:                         PayCheck();                         return;                     default:                         Console.WriteLine("Unknown Payment Type.");                         break;                 }
+                //*** view note above
+
                 //if (Enum.TryParse(typeof(PaymentType), Console.ReadLine(), out PaymentType input))
                 // get input of type PaymentType
                 var input = PaymentType.Credit;
@@ -73,6 +95,7 @@ namespace Cool_Coffee_Shop
                 }
                 Console.Write("Input error: Please try again: ");
             }
+            //** view note above the switch above
         }
         public void PayCash()
         { 
