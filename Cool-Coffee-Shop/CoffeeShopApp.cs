@@ -12,10 +12,10 @@ namespace Cool_Coffee_Shop
             if (productList == null) return;
 
             // Welcome message (Header block)
-            Console.WriteLine("Super Cool Coffee Shop Program!");
+            Console.WriteLine($"Super Cool Coffee Shop Program!\nPlease press enter to continue to the Main Menu:");
             var header = new HeaderBar(64);
             header.DrawHeader();
-
+            Console.ReadKey();
             var mainMenu = new MainMenu(productList) ;
             mainMenu.RunMainMenu();
         }
@@ -26,7 +26,7 @@ namespace Cool_Coffee_Shop
             OrderList.Add(new OrderLine(addedProduct, qty));
         }
 
-        //I believe this is redundant, covered through menu classes.... Have not deleted yet wait until up to date 
+        //**I believe this is redundant, covered through menu classes.... Have not deleted yet wait until up to date 
         public void CreateOrder(List<Product> productList)
         {
             var currentOrder = new Order();
@@ -44,7 +44,7 @@ namespace Cool_Coffee_Shop
 
             currentOrder.Cancel();
         }
-        //Until this point ****** create product List 
+        //***Until this point ****** create product List 
 
         public List<Product> CreateProductList()
         {
