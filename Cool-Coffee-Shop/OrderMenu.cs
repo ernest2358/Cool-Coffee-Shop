@@ -36,6 +36,8 @@ namespace Cool_Coffee_Shop
                 else if (userSelection == 3)
                 {
                     // process checkout
+                    Console.WriteLine(ListOfProducts);
+                    newOrder.Pay();
                     return;
                 }
                 else
@@ -53,13 +55,15 @@ namespace Cool_Coffee_Shop
             {
                 Console.WriteLine($"{i} - {ListOfProducts[i - 1].Name}");
             }
-            Console.ReadKey();
-            return ListOfProducts[0];
+            var userChoice = int.Parse(Console.ReadLine());
+            return ListOfProducts[userChoice];
         }
         private int ChooseQty()
         {
             // user enters a positive integer
-            return 2;
+            Console.WriteLine("How many would you like?");
+            var qtyOfProduct = int.Parse(Console.ReadLine());
+            return qtyOfProduct;
         }
     }
 }

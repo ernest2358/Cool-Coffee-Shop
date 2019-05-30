@@ -44,6 +44,11 @@ namespace Cool_Coffee_Shop
         {
             return CalculateSubTotal(OrderList) * TaxRate;
         }
+        public double CalculateChange(double total, double payment)
+        {
+            TotalOrder = total;
+            return payment - total;
+        }
         public void Pay()
         {
             CalculateTotal(OrderList);
@@ -112,7 +117,7 @@ namespace Cool_Coffee_Shop
                 userCCNumber = Console.ReadLine();
             }
 
-            Console.Write("\nEnter Credit Card Experation Date: ");//<- still need to validate the date
+            Console.Write("\nEnter Credit Card Experation Date: ");//<- still need to validate the dateC:\Users\misfi\source\repos\Cool-Coffee-Shop\Cool-Coffee-Shop\Order.cs
             userCCExpireDate = Console.ReadLine();
             int cCExpireDate = 0;
            
@@ -182,14 +187,14 @@ namespace Cool_Coffee_Shop
                     itemLine.Item.Price * itemLine.Qty
                 );
             }
-            //var subTotal = CalculateSubTotal(OrderList);
-            //var salesTax = CalculateTaxRate(OrderList);
-            //var total = CalculateTotal(OrderList);
-            //Console.WriteLine("Subtotal: ${0:0.00}", subTotal);
-            //Console.WriteLine("Tax: ${0:0.00}", salesTax);
-            //Console.WriteLine("Total: ${0:0.00}", total);
-            //Console.WriteLine("Payment: ${0:0.00}", payment);
-            //decimal change = processPayment(total, payment);
+            var subTotal = CalculateSubTotal(OrderList);
+            var salesTax = CalculateTaxRate(OrderList);
+            double change = CalculateChange(TotalOrder, payment);
+            Console.WriteLine("Subtotal: ${0:0.00}", subTotal);
+            Console.WriteLine("Tax: ${0:0.00}", salesTax);
+            Console.WriteLine("Total: ${0:0.00}", TotalOrder);
+            Console.WriteLine("Payment: ${0:0.00}", payment);
+            Console.WriteLine("Your change is ${0: 0:00}", change);
         }
     }
 }
