@@ -14,6 +14,8 @@ namespace Cool_Coffee_Shop
         public double SubTotal { get; set; }
         public double TotalOrder { get; set; }
         private static readonly double TaxRate = 0.06;
+        public double PaymentChoice { get; set; }
+        public double PaymentDetail { get; set; }
 
         public Order()
         {
@@ -36,7 +38,7 @@ namespace Cool_Coffee_Shop
                 Console.WriteLine($"{ i} - { OrderList[i - 1].Item}");
             }
         }
-
+        //Get rid of above possibly and change Order Menu
         public void CalculateTotal()
         {
             CalculateSubTotal();
@@ -58,7 +60,9 @@ namespace Cool_Coffee_Shop
         public void Pay()
         {
             CalculateTotal();
-
+            TotalOrder = Math.Round(TotalOrder, 2);
+             
+            Console.WriteLine($"Your grand total is: {TotalOrder}");
             while (true)
             {
                 Console.WriteLine($"How would you like to pay for your order? Please select options 1-3: \n1 - Cash, 2 - Crdeit/Debit, 3 - Check");
@@ -92,7 +96,7 @@ namespace Cool_Coffee_Shop
                 userPayCash = GetCash(); // get input from user, cash paid.
                 Console.WriteLine($"Cash Received: ${userPayCash}");
 
-                if (userPayCash > TotalOrder)
+                if (userPayCash >= TotalOrder)
                 {
                     orderChange = userPayCash - TotalOrder;
                     Console.WriteLine($"Total Change: $" + orderChange);
@@ -110,97 +114,60 @@ namespace Cool_Coffee_Shop
         {
             return double.Parse(Console.ReadLine());
         }
-        public void PayCredit() //need to validate number, date, cvv
+        public void PayCredit()
         {
-            string userCCNumber, userCVV, userCCMonth, userCCYear;
+            string userCCNumber, userCVV, userCCDate;
 
-            Console.Write("Enter Credit Card Number: ");
+            Console.Write("Enter the 16 Digit Card Number:: ");
             var cardCheck = new Regex(@"^([\-\s]?[0-9]{4}){4}$");
             userCCNumber = Console.ReadLine();
-            if (!cardCheck.IsMatch(userCCNumber))
+            while (!cardCheck.IsMatch(userCCNumber))
             {
-                Console.Write($"\nInvalid card number. \nEnter the 16 digit card number located on the front:");
-            }
-            /**********
-            while (!int.TryParse(userCCNumber, out int cCnumber) && userCCNumber.Length != 16)
-            {
-                Console.Write("\nInvalid card number. \nEnter the 16 digit card number located on the front:");
+                Console.Write($"\nInvalid card number. \nEnter the 16 Digit Card Number: ");
                 userCCNumber = Console.ReadLine();
             }
-            */
-            Console.Write("\nEnter Credit Card Expiration Date");//<- still need to validate the date
-            Console.Write("\nEnter the month(mm): ");
-            var monthCheck = new Regex(@"^(0[1-9]|1[0-2])$");
-            userCCMonth = Console.ReadLine();
-            if (!monthCheck.IsMatch(userCCMonth))
+
+            Console.Write("\nEnter Credit Card Expiration Date(mm/yyyy): ");
+            var dateCheck = new Regex(@"^(0[1-9]|1[0-2])([/])(20[0-9]{2})$");
+            userCCDate = Console.ReadLine();
+            while (!dateCheck.IsMatch(userCCDate))
             {
-                Console.Write("\nInvalid month.  \nEnter the month(mm): ");
+                Console.Write("\nInvalid month.  \nEnter the Expiration Date(mm/yyyy): ");
+                userCCDate = Console.ReadLine();
             }
-            /*int cCMonth = 0;
-                       
-            while (!int.TryParse(userCCMonth, out cCMonth) && cCMonth > 0 && cCMonth < 13)
-            {
-                Console.Write("\nInvalid month.  \nEnter the month(mm): ");
-                userCCMonth = Console.ReadLine();
-            }
-            */
-            Console.Write("\nEnter Year (yyyy): ");
-            var yearCheck = new Regex(@"^20[0-9]{2}$");
-            userCCYear = Console.ReadLine();
-            if (!yearCheck.IsMatch(userCCYear))
-            {
-                Console.Write("\nInvalid year.  \nEnter Year (yyyy): ");
-            }
-            /*
-            while (!int.TryParse(userCCYear, out int cCYear) && cCYear > 2000)
-            {
-                Console.Write("\nInvalid year.  \nEnter Year (yyyy): ");
-                userCCYear = Console.ReadLine();
-            }
-            */
+
             Console.Write("\nEnter Credit Card CVV: ");
             var cvvCheck = new Regex(@"^\d{3}$");
             userCVV = Console.ReadLine();
-            if (!cvvCheck.IsMatch(userCVV))
-            {
-                Console.Write("\nInvalid CVV.  \nEnter 3 Digit CVV located on the back of the card: ");
-            }
-            /*
-            int cVV = 0;
-            while (!int.TryParse(userCVV, out cVV) && userCVV.Length == 2)  //Also need to check for 3 digit intiger
+            while (!cvvCheck.IsMatch(userCVV))
             {
                 Console.Write("\nInvalid CVV.  \nEnter 3 Digit CVV located on the back of the card: ");
                 userCVV = Console.ReadLine();
             }
-            */
-            double userCredit;
-            userCredit = Convert.ToDouble(Console.ReadLine());
-            while (userCredit != TotalOrder)
-            {
-                Console.WriteLine("Insufficiant funds. Please verify total.");
-                userCredit = Convert.ToDouble(Console.ReadLine());
-            }
+                Console.WriteLine("Payment accepted.");
+            Console.ReadKey();
         }
         public void PayCheck()
         {
-            int checkVerify;
             string checkNumber;
-            double checkTotal, orderTotal;
-            Console.Write("Please enter the four(4) digit check number: ");
+            double checkTotal;
+            Console.Write("Enter the 4 digit check number: ");
+            var checkVerify = new Regex(@"^\d{4}$");
             checkNumber = Console.ReadLine();
-            while (!int.TryParse(checkNumber, out checkVerify) && checkNumber.Length == 3)
+            while (!checkVerify.IsMatch(checkNumber))
             {
-                Console.WriteLine("Invalid Entry. Please re-enter the check number: ");
+                Console.Write("Invalid Entry. \nEnter the 4 digit check number: ");
                 checkNumber = Console.ReadLine();
             }
-
-            checkTotal = Convert.ToDouble(Console.ReadLine()); //<- Place holder
-            orderTotal = 0; //<- Place holder Pull total from elsewhere. 
-            while(checkTotal != orderTotal)
+            Console.Write("Enter Check Total: ");
+            checkTotal = Convert.ToDouble(Console.ReadLine());
+            while (checkTotal != TotalOrder)
             {
-                Console.WriteLine("Insufficiant funds. Please verify total.");
+                Console.WriteLine("Totals do not match. Please verify total.");
                 checkTotal = Convert.ToDouble(Console.ReadLine());
             }
+            Console.WriteLine("Your check payment has cleared");
+            Console.ReadKey();
         }
         public void Cancel()
         {
