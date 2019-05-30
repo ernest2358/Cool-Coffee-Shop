@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Cool_Coffee_Shop
 {
@@ -114,38 +115,64 @@ namespace Cool_Coffee_Shop
             string userCCNumber, userCVV, userCCMonth, userCCYear;
 
             Console.Write("Enter Credit Card Number: ");
+            var cardCheck = new Regex(@"^([\-\s]?[0-9]{4}){4}$");
             userCCNumber = Console.ReadLine();
+            if (!cardCheck.IsMatch(userCCNumber))
+            {
+                Console.Write($"\nInvalid card number. \nEnter the 16 digit card number located on the front:");
+            }
+            /**********
             while (!int.TryParse(userCCNumber, out int cCnumber) && userCCNumber.Length != 16)
             {
                 Console.Write("\nInvalid card number. \nEnter the 16 digit card number located on the front:");
                 userCCNumber = Console.ReadLine();
             }
+            */
             Console.Write("\nEnter Credit Card Expiration Date");//<- still need to validate the date
             Console.Write("\nEnter the month(mm): ");
+            var monthCheck = new Regex(@"^(0[1-9]|1[0-2])$");
             userCCMonth = Console.ReadLine();
-            int cCMonth = 0;
+            if (!monthCheck.IsMatch(userCCMonth))
+            {
+                Console.Write("\nInvalid month.  \nEnter the month(mm): ");
+            }
+            /*int cCMonth = 0;
+                       
             while (!int.TryParse(userCCMonth, out cCMonth) && cCMonth > 0 && cCMonth < 13)
             {
                 Console.Write("\nInvalid month.  \nEnter the month(mm): ");
                 userCCMonth = Console.ReadLine();
             }
+            */
             Console.Write("\nEnter Year (yyyy): ");
+            var yearCheck = new Regex(@"^20[0-9]{2}$");
             userCCYear = Console.ReadLine();
-
+            if (!yearCheck.IsMatch(userCCYear))
+            {
+                Console.Write("\nInvalid year.  \nEnter Year (yyyy): ");
+            }
+            /*
             while (!int.TryParse(userCCYear, out int cCYear) && cCYear > 2000)
             {
                 Console.Write("\nInvalid year.  \nEnter Year (yyyy): ");
                 userCCYear = Console.ReadLine();
             }
+            */
             Console.Write("\nEnter Credit Card CVV: ");
+            var cvvCheck = new Regex(@"^\d{3}$");
             userCVV = Console.ReadLine();
+            if (!cvvCheck.IsMatch(userCVV))
+            {
+                Console.Write("\nInvalid CVV.  \nEnter 3 Digit CVV located on the back of the card: ");
+            }
+            /*
             int cVV = 0;
             while (!int.TryParse(userCVV, out cVV) && userCVV.Length == 2)  //Also need to check for 3 digit intiger
             {
                 Console.Write("\nInvalid CVV.  \nEnter 3 Digit CVV located on the back of the card: ");
                 userCVV = Console.ReadLine();
             }
-
+            */
             double userCredit;
             userCredit = Convert.ToDouble(Console.ReadLine());
             while (userCredit != TotalOrder)
