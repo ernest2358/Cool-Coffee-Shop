@@ -44,8 +44,20 @@ namespace Cool_Coffee_Shop
             Console.Write("Done\n\n");
             return productList;
         }
-        public void AddNewProduct(Product newProduct)
+        public void AddNewProduct()
         {
+            Console.WriteLine("Adding new product"); // refactor this too.
+            Console.Write("What is the new product name: ");
+            var name = Console.ReadLine();
+            Console.Write("What is the new product category: ");
+            var category = Console.ReadLine();
+            Console.Write("What is the new product description: ");
+            var desc = Console.ReadLine();
+            Console.Write("What is the new product price: ");
+            var price = double.Parse(Console.ReadLine());
+
+            var newProduct = new Product(name, category, desc, price);
+
             var product = new String($"\n{newProduct.Name},{newProduct.Cateogory},{newProduct.Description},{newProduct.Price.ToString()}");
             File.AppendAllText(DataFile, product);
         }
