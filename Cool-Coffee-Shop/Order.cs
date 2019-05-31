@@ -15,7 +15,7 @@ namespace Cool_Coffee_Shop
         public double TotalOrder { get; set; }
         public double PaymentGeneric { get; set; } //cash payment
         public int PaymentType { get; set; } // credit, check
-        private static readonly double TaxRate = 0.06;
+        public static readonly double TaxRate = 0.06;
         public double PaymentDetail { get; set; }
 
         public Order()
@@ -67,8 +67,11 @@ namespace Cool_Coffee_Shop
         {
             CalculateTotal();
             TotalOrder = Math.Round(TotalOrder, 2);
+
+            var header = new HeaderBar(64);
+            header.DrawCheckout(this);
              
-            Console.WriteLine($"Your grand total is: {TotalOrder}");
+            // Console.WriteLine($"Your grand total is: {TotalOrder}");
             while (true)
             {
                 Console.WriteLine($"How would you like to pay for your order? Please select options 1-3: \n1 - Cash, 2 - Crdeit/Debit, 3 - Check");

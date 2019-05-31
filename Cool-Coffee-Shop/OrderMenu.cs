@@ -28,7 +28,7 @@ namespace Cool_Coffee_Shop
                 Header.DrawHeader(NewOrder);
 
                 Console.WriteLine("Please make a selection between options 1-4");
-                Console.WriteLine("1 - Add an item to order, 2 - Remove an item from order, 3 - Checkout, 4 - Cancel order");
+                Console.WriteLine("1 - Add an item to order, 2 - Remove an item from order, 3 - Checkout, 4 - Cancel order, 5 - Show Cart");
                 var userSelection = int.TryParse(Console.ReadLine(), out int result); 
                 switch (result)
                 {
@@ -49,6 +49,12 @@ namespace Cool_Coffee_Shop
                     case 3:
                         NewOrder.Pay();
                         return;
+                    case 4:
+                        NewOrder.Cancel();
+                        return;
+                    case 5:
+                        SeeCart();
+                        break;
                     default:
                         NewOrder.Cancel();
                         return;
@@ -70,6 +76,15 @@ namespace Cool_Coffee_Shop
                 result = 1;
             }
             return result;
+        }
+        private void SeeCart()
+        {
+            Console.Clear();
+            Header.DrawHeader(NewOrder);
+            Header.DrawCart(NewOrder);
+
+            Console.WriteLine("Press any key to continue: ");
+            Console.ReadKey();
         }
     }
 }
