@@ -16,7 +16,6 @@ namespace Cool_Coffee_Shop
         public double PaymentGeneric { get; set; } //cash payment
         public int PaymentType { get; set; } // credit, check
         private static readonly double TaxRate = 0.06;
-        public double PaymentChoice { get; set; }
         public double PaymentDetail { get; set; }
 
         public Order()
