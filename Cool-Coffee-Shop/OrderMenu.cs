@@ -8,7 +8,6 @@ namespace Cool_Coffee_Shop
         public List<Product> ListOfProducts { get; set; }
         public int SelectedItem { get; set; }
         public int NumberOfItemsSelected { get; set; }
-        public List<Product> Cart { get; set; }
         public HeaderBar Header { get; set; }
         public Order NewOrder { get; set; }
         //public int RemoveItem { get; set; }   this will be applied
@@ -30,34 +29,29 @@ namespace Cool_Coffee_Shop
 
                 Console.WriteLine("Please make a selection between options 1-4");
                 Console.WriteLine("1 - Add an item to order, 2 - Remove an item from order, 3 - Checkout, 4 - Cancel order");
-                var userSelection = int.TryParse(Console.ReadLine(), out int result); // refactor this
-
-                if (result == 1)
+                var userSelection = int.TryParse(Console.ReadLine(), out int result); 
+                switch (result)
                 {
-                    Console.Clear();
-                    Header.DrawHeader(NewOrder);
-                    Header.DrawMenu(ListOfProducts);
+                    case 1:
+                        Console.Clear();
+                        Header.DrawHeader(NewOrder);
+                        Header.DrawMenu(ListOfProducts);
 
-                    var chosenProduct = ChooseProduct();
-                    var quantity = ChooseQty();
+                        var chosenProduct = ChooseProduct();
+                        var quantity = ChooseQty();
 
-                    NewOrder.AddToAnOrder(chosenProduct, quantity);
-
-                }
-                else if (result == 2)
-                {   //Attempted to remove item and in Order class attempted to make function
-                    // var removeItemFromOrder = (creat prop removed item)
-                    NewOrder.RemoveFromAnOrder();
-                }
-                else if (result == 3)
-                {
-                    NewOrder.Pay();
-                    return;
-                }
-                else
-                {
-                    NewOrder.Cancel();
-                    return;
+                        NewOrder.AddToAnOrder(chosenProduct, quantity);
+                        break;
+                    case 2:
+                        // var removeItemFromOrder = (creat prop removed item)
+                        NewOrder.RemoveFromAnOrder();
+                        break;
+                    case 3:
+                        NewOrder.Pay();
+                        return;
+                    default:
+                        NewOrder.Cancel();
+                        return;
                 }
             }
         }

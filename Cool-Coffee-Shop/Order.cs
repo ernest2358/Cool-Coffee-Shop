@@ -14,7 +14,7 @@ namespace Cool_Coffee_Shop
         public double SubTotal { get; set; }
         public double TotalOrder { get; set; }
         private static readonly double TaxRate = 0.06;
-        public double PaymentChoice { get; set; }
+        public double PaymentType { get; set; }
         public double PaymentDetail { get; set; }
 
         public Order()
@@ -108,6 +108,7 @@ namespace Cool_Coffee_Shop
                     Console.WriteLine("Insufficient funds.");
                     Console.ReadKey();
                 }
+                //Print receipt
             }
         }
         private double GetCash()
@@ -146,6 +147,7 @@ namespace Cool_Coffee_Shop
             }
                 Console.WriteLine("Payment accepted.");
             Console.ReadKey();
+            //Print receipt
         }
         public void PayCheck()
         {
@@ -168,6 +170,7 @@ namespace Cool_Coffee_Shop
             }
             Console.WriteLine("Your check payment has cleared");
             Console.ReadKey();
+            //Print receipt
         }
         public void Cancel()
         {
@@ -189,14 +192,6 @@ namespace Cool_Coffee_Shop
                     itemLine.Item.Price * itemLine.Qty
                 );
             }
-            //var subTotal = CalculateSubTotal(OrderList);
-            //var salesTax = CalculateTaxRate(OrderList);
-            //var total = CalculateTotal(OrderList);
-            //Console.WriteLine("Subtotal: ${0:0.00}", subTotal);
-            //Console.WriteLine("Tax: ${0:0.00}", salesTax);
-            //Console.WriteLine("Total: ${0:0.00}", total);
-            //Console.WriteLine("Payment: ${0:0.00}", payment);
-            //decimal change = processPayment(total, payment);
         }
     }
 }
