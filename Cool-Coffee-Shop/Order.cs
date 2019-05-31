@@ -13,8 +13,9 @@ namespace Cool_Coffee_Shop
         public List<OrderLine> OrderList { get; set; }
         public double SubTotal { get; set; }
         public double TotalOrder { get; set; }
+        public double PaymentGeneric { get; set; } //cash payment
+        public int PaymentType { get; set; } // credit, check
         private static readonly double TaxRate = 0.06;
-        public double PaymentType { get; set; }
         public double PaymentDetail { get; set; }
 
         public Order()
@@ -53,6 +54,11 @@ namespace Cool_Coffee_Shop
                 SubTotal += costOfItems;
             }
         }
+        public double CalculateChange(double total, double payment)
+        {
+            TotalOrder = total;
+            return payment - total;
+        }
         public double CalculateTaxRate()
         {
             return SubTotal * TaxRate;
@@ -90,9 +96,12 @@ namespace Cool_Coffee_Shop
         public void PayCash()
         { 
             double userPayCash, orderChange; // place holder
-            while (true)
+            Console.Write("How much cash do you offer? ");
+            userPayCash = GetCash(); // get input from user, cash paid.
+            Console.WriteLine($"Cash Received: ${userPayCash}");
+            while (userPayCash < TotalOrder)
             {
-                Console.Write("How much cash do you offer? ");
+                /*Console.Write("How much cash do you offer? ");
                 userPayCash = GetCash(); // get input from user, cash paid.
                 Console.WriteLine($"Cash Received: ${userPayCash}");
 
@@ -102,14 +111,27 @@ namespace Cool_Coffee_Shop
                     Console.WriteLine($"Total Change: $" + orderChange);
                     Console.ReadKey();
                     return;
-                }
-                else
-                {
+                }*/
+                //else
+
                     Console.WriteLine("Insufficient funds.");
+                    userPayCash = GetCash(); // get input from user, cash paid.
+
                     Console.ReadKey();
-                }
-                //Print receipt
+
             }
+            if (userPayCash >= TotalOrder)
+            {
+                orderChange = userPayCash - TotalOrder;
+                Console.WriteLine($"Total Change: $" + orderChange);
+                PrintReceipt();
+
+                Console.ReadKey();
+                PrintReceipt();
+
+                //return;
+            }
+            PrintReceipt();
         }
         private double GetCash()
         {
@@ -147,7 +169,7 @@ namespace Cool_Coffee_Shop
             }
                 Console.WriteLine("Payment accepted.");
             Console.ReadKey();
-            //Print receipt
+            PrintReceipt();
         }
         public void PayCheck()
         {
@@ -170,13 +192,14 @@ namespace Cool_Coffee_Shop
             }
             Console.WriteLine("Your check payment has cleared");
             Console.ReadKey();
-            //Print receipt
+            PrintReceipt();
         }
         public void Cancel()
         {
             Console.WriteLine($"Order {OrderID} has been cancelled. Press any key to return to main menu.");
             Console.ReadKey();
         }
+
         public void PrintReceipt()//List<OrderLine> OrderList, double payment)
         {
             StringBuilder receipt = new StringBuilder("");
@@ -184,14 +207,37 @@ namespace Cool_Coffee_Shop
             foreach (var itemLine in OrderList)
             {
                 Console.WriteLine
-                (
-                    "{0} {1} ${2} ea. ${3}",
-                    itemLine.Item.Name,
-                    itemLine.Qty,
-                    itemLine.Item.Price,
-                    itemLine.Item.Price * itemLine.Qty
-                );
+               (
+                   "{0} {1} ${2} ea. ${3}",
+                   itemLine.Item.Name,
+                   itemLine.Qty,
+                   itemLine.Item.Price,
+                   itemLine.Item.Price * itemLine.Qty
+               );
+                switch (PaymentType) //make sure switch statement is displayed properly
+                {
+                    case 0:
+                        Console.WriteLine("Cash Payment");
+                        break;
+                    case 1:
+                        var lastFourDigits = Console.Read();
+                        Console.WriteLine("Credit/Debit Payment");
+                        Console.WriteLine("XXXXX{0}", lastFourDigits); //make this better
+                        break;
+                    case 2:
+                        Console.WriteLine("Check Payment");
+                        break;
+                    default:
+                        break;
+                }
             }
+            double change = CalculateChange(TotalOrder, PaymentGeneric);
+            Console.WriteLine("Subtotal: ${0:0.00}", SubTotal);
+            Console.WriteLine("Tax: ${0:0.00}", CalculateTaxRate());
+            Console.WriteLine("Total: ${0:0.00}", TotalOrder);
+            //Console.WriteLine("Payment: ${0:0.00}", PaymentGeneric);//should show payment received
+            //Console.WriteLine("Your change is ${0: 0.00}", change);//should show exact change
+            //make sure this runs properly
         }
     }
 }
