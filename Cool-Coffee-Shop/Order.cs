@@ -13,7 +13,7 @@ namespace Cool_Coffee_Shop
         public List<OrderLine> OrderList { get; set; }
         public double SubTotal { get; set; }
         public double TotalOrder { get; set; }
-        public double PaymentGeneric { get; set; } //cash payment
+        public decimal PaymentGeneric { get; set; } 
         public int PaymentType { get; set; } // credit, check
         public static readonly double TaxRate = 0.06;
         public double PaymentDetail { get; set; }
@@ -26,12 +26,12 @@ namespace Cool_Coffee_Shop
             OrderList = new List<OrderLine>();
         }
         public void AddToAnOrder(Product addedProduct, int qty)
-        {   
+        {
             OrderList.Add(new OrderLine(addedProduct, qty));
         }
-                //Right now Remove from order does nothing
-                //Attempted to print the current order and have the user select what they would like to remove but items in orderlist are not appearring. for and foreach loop
-                //Should it be a perimeter of type Product to remove the specific Product Item   
+        //Right now Remove from order does nothing
+        //Attempted to print the current order and have the user select what they would like to remove but items in orderlist are not appearring. for and foreach loop
+        //Should it be a perimeter of type Product to remove the specific Product Item   
         public void RemoveFromAnOrder() // ??
         {
             for (var i = 1; i <= OrderList.Count; i++)
@@ -74,10 +74,19 @@ namespace Cool_Coffee_Shop
             // Console.WriteLine($"Your grand total is: {TotalOrder}");
             while (true)
             {
-                Console.WriteLine($"How would you like to pay for your order? Please select options 1-3: \n1 - Cash, 2 - Crdeit/Debit, 3 - Check");
+                Console.WriteLine($"How would you like to pay for your order? Please select options 1-3: \n1 - Cash, 2 - Credit/Debit, 3 - Check");
                 //*** Maybe no need for Enum Payment Type, just ask for an int and switch  should follow?***
 
                 var paymentType = int.TryParse(Console.ReadLine(), out int result);
+
+                
+
+                //while (!int.TryParse(Console.ReadLine(), out int PaymentType))
+                //{
+                //    Console.WriteLine("Invalid Option, try again.");
+                //    paymentType = Console.ReadLine();
+                //}
+                PaymentType = result;
                 switch (result)
                 {
                     case 1:
@@ -97,7 +106,7 @@ namespace Cool_Coffee_Shop
             }
         }
         public void PayCash()
-        { 
+        {
             double userPayCash, orderChange; // place holder
             Console.Write("How much cash do you offer? ");
             userPayCash = GetCash(); // get input from user, cash paid.
@@ -107,7 +116,6 @@ namespace Cool_Coffee_Shop
                 /*Console.Write("How much cash do you offer? ");
                 userPayCash = GetCash(); // get input from user, cash paid.
                 Console.WriteLine($"Cash Received: ${userPayCash}");
-
                 if (userPayCash >= TotalOrder)
                 {
                     orderChange = userPayCash - TotalOrder;
@@ -117,10 +125,10 @@ namespace Cool_Coffee_Shop
                 }*/
                 //else
 
-                    Console.WriteLine("Insufficient funds.");
-                    userPayCash = GetCash(); // get input from user, cash paid.
+                Console.WriteLine("Insufficient funds.");
+                userPayCash = GetCash(); // get input from user, cash paid.
 
-                    Console.ReadKey();
+                Console.ReadKey();
 
             }
             if (userPayCash >= TotalOrder)
@@ -144,9 +152,10 @@ namespace Cool_Coffee_Shop
         {
             string userCCNumber, userCVV, userCCDate;
 
-            Console.Write("Enter the 16 Digit Card Number:: ");
+            Console.Write("Enter the 16 Digit Card Number: ");
             var cardCheck = new Regex(@"^([\-\s]?[0-9]{4}){4}$");
             userCCNumber = Console.ReadLine();
+            PaymentGeneric = decimal.Parse(userCCNumber);
             while (!cardCheck.IsMatch(userCCNumber))
             {
                 Console.Write($"\nInvalid card number. \nEnter the 16 Digit Card Number: ");
@@ -170,9 +179,10 @@ namespace Cool_Coffee_Shop
                 Console.Write("\nInvalid CVV.  \nEnter 3 Digit CVV located on the back of the card: ");
                 userCVV = Console.ReadLine();
             }
-                Console.WriteLine("Payment accepted.");
-            Console.ReadKey();
+            Console.WriteLine("Payment accepted.");
+  
             PrintReceipt();
+            Console.ReadKey();
         }
         public void PayCheck()
         {
@@ -181,6 +191,7 @@ namespace Cool_Coffee_Shop
             Console.Write("Enter the 4 digit check number: ");
             var checkVerify = new Regex(@"^\d{4}$");
             checkNumber = Console.ReadLine();
+            PaymentGeneric = decimal.Parse(checkNumber);
             while (!checkVerify.IsMatch(checkNumber))
             {
                 Console.Write("Invalid Entry. \nEnter the 4 digit check number: ");
@@ -194,8 +205,9 @@ namespace Cool_Coffee_Shop
                 checkTotal = Convert.ToDouble(Console.ReadLine());
             }
             Console.WriteLine("Your check payment has cleared");
-            Console.ReadKey();
+            
             PrintReceipt();
+            Console.ReadKey();
         }
         public void Cancel()
         {
@@ -203,7 +215,7 @@ namespace Cool_Coffee_Shop
             Console.ReadKey();
         }
 
-        public void PrintReceipt()//List<OrderLine> OrderList, double payment)
+        public void PrintReceipt()
         {
             StringBuilder receipt = new StringBuilder("");
             Console.WriteLine("--- Receipt ---");
@@ -217,24 +229,24 @@ namespace Cool_Coffee_Shop
                    itemLine.Item.Price,
                    itemLine.Item.Price * itemLine.Qty
                );
-                switch (PaymentType) //make sure switch statement is displayed properly
+            }
+                switch (PaymentType) 
                 {
-                    case 0:
+                    case 1:
                         Console.WriteLine("Cash Payment");
                         break;
-                    case 1:
-                        var lastFourDigits = Console.Read();
-                        Console.WriteLine("Credit/Debit Payment");
-                        Console.WriteLine("XXXXX{0}", lastFourDigits); //make this better
-                        break;
                     case 2:
-                        Console.WriteLine("Check Payment");
+                        Console.WriteLine("Credit/Debit Payment");
+                        Console.WriteLine("XXXXXXXXXXXX{0}", PaymentGeneric.ToString().Substring(12)); 
+                        break;
+                    case 3:
+                        Console.WriteLine("Check #{0}", PaymentGeneric);
                         break;
                     default:
                         break;
                 }
-            }
-            double change = CalculateChange(TotalOrder, PaymentGeneric);
+            
+            double change = CalculateChange(TotalOrder, (double)PaymentGeneric);
             Console.WriteLine("Subtotal: ${0:0.00}", SubTotal);
             Console.WriteLine("Tax: ${0:0.00}", CalculateTaxRate());
             Console.WriteLine("Total: ${0:0.00}", TotalOrder);

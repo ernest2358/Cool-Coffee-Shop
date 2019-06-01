@@ -12,7 +12,7 @@ namespace Cool_Coffee_Shop
         public Order NewOrder { get; set; }
         //public int RemoveItem { get; set; }   this will be applied
 
-        public OrderMenu(List<Product>productList)
+        public OrderMenu(List<Product> productList)
         {
             ListOfProducts = productList;
             Header = new HeaderBar(64);
