@@ -60,20 +60,9 @@ namespace Cool_Coffee_Shop
                 var newProduct = new Product(name, category, desc, price);
 
                 newProducts.Add(new string($"{newProduct.Name}, {newProduct.Cateogory}, {newProduct.Description}, {newProduct.Price.ToString()}"));
-            } while (KeepGoing("Would you like to add another product?"));
+            } while (Common.KeepGoing("Would you like to add another product?"));
 
             File.AppendAllLines(DataFile, newProducts);
-        }
-        private bool KeepGoing(string question)
-        {
-            Console.Write($"{question} ");
-            while (true)
-            {
-                var input = Console.ReadLine().ToLower();
-                if (input == "y") return true;
-                if (input == "n") return false;
-                Console.Write("Input error. Please enter y or n: ");
-            }
         }
     }
 }

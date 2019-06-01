@@ -12,7 +12,6 @@ namespace Cool_Coffee_Shop
         {
             HeaderWidth = width;
         }
-
         public void DrawHeader()
         {
             var name = "Cool Coffee Shop";
@@ -30,6 +29,21 @@ namespace Cool_Coffee_Shop
             left = new string($"|       3 - See the menu");
             Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
             left = new string($"|       4 - Exit Coffee Shop App");
+            Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
+            Console.WriteLine($"+{new string('-', HeaderWidth - 2)}+");
+        }
+        public void DrawOrderMenuOptions()
+        {
+            var left = new string($"|       1 - Add an item to order");
+            var right = new string($"|");
+            Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
+            left = new string($"|       2 - Remove an item from order");
+            Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
+            left = new string($"|       3 - Checkout");
+            Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
+            left = new string($"|       4 - Cancel order");
+            Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
+            left = new string($"|       5 - Show Cart");
             Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
             Console.WriteLine($"+{new string('-', HeaderWidth - 2)}+");
         }
@@ -65,22 +79,22 @@ namespace Cool_Coffee_Shop
         }
         public void DrawCart(Order order)
         {
-            foreach(var line in order.OrderList)
+            for (var i = 1; i <= order.OrderList.Count; i++)
             {
-                if(line.Qty == 1)
+                if (order.OrderList[i - 1].Qty == 1)
                 {
-                    var left = new string($"| {line.Item.Name} ");
-                    var right = new string($" ${line.Item.Price}    |");
+                    var left = new string($"| {i} - {order.OrderList[i - 1].Item.Name} ");
+                    var right = new string($" ${order.OrderList[i - 1].Item.Price}    |");
                     Console.WriteLine($"{left}{new string('.', HeaderWidth - left.Length - right.Length)}{right}");
                 }
                 else
                 {
-                    var left = new string($"| {line.Item.Name} ");
+                    var left = new string($"| {i} - {order.OrderList[i - 1].Item.Name} ");
                     var right = new string($"|");
                     Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
 
-                    left = new string($"|     ---    {line.Qty}x {line.Item.Price}ea ");
-                    right = new string($" ${line.Item.Price * line.Qty}    |");
+                    left = new string($"|     ---    {order.OrderList[i - 1].Qty}x {order.OrderList[i - 1].Item.Price}ea ");
+                    right = new string($" ${order.OrderList[i - 1].Item.Price * order.OrderList[i - 1].Qty}    |");
                     Console.WriteLine($"{left}{new string('.', HeaderWidth - left.Length - right.Length)}{right}");
                 }
             }

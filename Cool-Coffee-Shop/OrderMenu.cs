@@ -26,9 +26,9 @@ namespace Cool_Coffee_Shop
                 Console.Clear();
                 NewOrder.CalculateSubTotal();
                 Header.DrawHeader(NewOrder);
-
-                Console.WriteLine("Please make a selection between options 1-4");
-                Console.WriteLine("1 - Add an item to order, 2 - Remove an item from order, 3 - Checkout, 4 - Cancel order, 5 - Show Cart");
+                Header.DrawOrderMenuOptions();
+                //Console.WriteLine("Please make a selection between options 1-4");
+                //Console.WriteLine("1 - Add an item to order, 2 - Remove an item from order, 3 - Checkout, 4 - Cancel order, 5 - Show Cart");
                 var userSelection = int.TryParse(Console.ReadLine(), out int result); 
                 switch (result)
                 {
@@ -82,7 +82,6 @@ namespace Cool_Coffee_Shop
             Console.Clear();
             Header.DrawHeader(NewOrder);
             Header.DrawCart(NewOrder);
-
             Console.WriteLine("Press any key to continue: ");
             Console.ReadKey();
         }
