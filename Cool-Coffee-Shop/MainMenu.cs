@@ -58,8 +58,18 @@ namespace Cool_Coffee_Shop
             Console.Clear();
             Header.DrawHeader();
             Header.DrawMenu(ListOfProducts);
+            while (Common.KeepGoing("Would you like to learn more about a product?"))
+            {
+                LearnMore();
+            }
             Console.WriteLine("Press any key to continue: ");
             Console.ReadKey();
+        }
+        private void LearnMore()
+        {
+            Console.Write($"Which product would you like to learn more about? (1-{ListOfProducts.Count})? ");
+            var choice = Common.GetInt(1, ListOfProducts.Count);
+            Console.Write($"\n{ListOfProducts[choice - 1].Name}: {ListOfProducts[choice - 1].Description}\n\n");
         }
         private void AddNewProduct()
         {
