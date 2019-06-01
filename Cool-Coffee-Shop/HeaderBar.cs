@@ -18,7 +18,7 @@ namespace Cool_Coffee_Shop
             var name = "Cool Coffee Shop";
             Console.WriteLine($"+{new String('-', HeaderWidth - 2)}+");
             Console.WriteLine($"|{new String(' ', (HeaderWidth - name.Length) / 2 - 1)}{name}{new String(' ', (HeaderWidth - name.Length) / 2 - 1)}|");
-            Console.WriteLine($"+{new String('-',HeaderWidth-2)}+");
+            Console.WriteLine($"+{new String('-', HeaderWidth - 2)}+");
         }
         public void DrawHeader(Order order)
         {

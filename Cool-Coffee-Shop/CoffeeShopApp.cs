@@ -18,7 +18,7 @@ namespace Cool_Coffee_Shop
 
             Console.ReadKey();
 
-            var mainMenu = new MainMenu(productList) ;
+            var mainMenu = new MainMenu(productList);
             mainMenu.RunMainMenu();
         }
         public List<Product> CreateProductList()

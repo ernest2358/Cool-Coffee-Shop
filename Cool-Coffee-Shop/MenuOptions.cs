@@ -11,7 +11,7 @@ namespace Cool_Coffee_Shop
         VanillaBeanFrappuccino = 6,
         PeachCitrusWhiteTea = 7,
         CoolGreenTea = 8,
-        HotChocolate= 9,
+        HotChocolate = 9,
         BottleWater = 10,
         Bagel = 11,
         CoolCookie = 12

@@ -24,28 +24,24 @@ namespace Cool_Coffee_Shop
                 Console.WriteLine("Please make a selection between options 1-4");
                 Console.WriteLine("1 - Create an Order, 2 - Add a new product to menu, 3 - Remove a product from the menu 4 - Exit Coffee Shop App");
 
-                var userSelection = int.TryParse(Console.ReadLine(), out int result); // refactor this
-                if (result == 1) // make this a switch
+                var userSelection = int.TryParse(Console.ReadLine(), out int result);
+                switch (result)
                 {
-                    CreateNewOrder();
-                }
-                else if (result == 2)
-                {
-                    var seed = new SeedDB();
-                    seed.AddNewProduct();
-                }
-                else if (result == 3)
-                {
-                    //removeProduct from menu (SeedDB)() probs get rid of this
-                }
-                else if (result == 4)
-                {
-                    Console.WriteLine("Have a great day. Goodbye!!");
-                    return;
-                }
-                else
-                {
-                    Console.WriteLine("The value you have entered is invalid. Please try again.");
+                    case 1:
+                        CreateNewOrder();
+                        break;
+                    case 2:
+                        var seed = new SeedDB();
+                        seed.AddNewProduct();
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        Console.WriteLine("Have a great day. Goodbye!!");
+                        return;
+                    default:
+                        Console.WriteLine("The value you have entered is invalid. Please try again.");
+                        break;
                 }
             }
         }
