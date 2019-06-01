@@ -28,13 +28,8 @@ namespace Cool_Coffee_Shop
                 Header.DrawHeader(NewOrder);
 
                 Console.WriteLine("Please make a selection between options 1-4");
-<<<<<<< HEAD
-                Console.WriteLine("1 - Add an item to order, 2 - Remove an item from order, 3 - Checkout, 4 - Cancel order");
-                var userSelection = int.TryParse(Console.ReadLine(), out int result);
-=======
                 Console.WriteLine("1 - Add an item to order, 2 - Remove an item from order, 3 - Checkout, 4 - Cancel order, 5 - Show Cart");
                 var userSelection = int.TryParse(Console.ReadLine(), out int result); 
->>>>>>> 7ca549105a0c8b4e34ce7f59a8de41078cc3c28c
                 switch (result)
                 {
                     case 1:

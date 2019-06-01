@@ -16,11 +16,6 @@ namespace Cool_Coffee_Shop
         public void DrawHeader()
         {
             var name = "Cool Coffee Shop";
-<<<<<<< HEAD
-            Console.WriteLine($"+{new String('-', HeaderWidth - 2)}+");
-            Console.WriteLine($"|{new String(' ', (HeaderWidth - name.Length) / 2 - 1)}{name}{new String(' ', (HeaderWidth - name.Length) / 2 - 1)}|");
-            Console.WriteLine($"+{new String('-', HeaderWidth - 2)}+");
-=======
             Console.WriteLine($"+{new string('-', HeaderWidth - 2)}+");
             Console.WriteLine($"|{new string(' ', (HeaderWidth - name.Length) / 2 - 1)}{name}{new string(' ', (HeaderWidth - name.Length) / 2 - 1)}|");
             Console.WriteLine($"+{new string('-',HeaderWidth-2)}+");
@@ -37,7 +32,6 @@ namespace Cool_Coffee_Shop
             left = new string($"|       4 - Exit Coffee Shop App");
             Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
             Console.WriteLine($"+{new string('-', HeaderWidth - 2)}+");
->>>>>>> 7ca549105a0c8b4e34ce7f59a8de41078cc3c28c
         }
         public void DrawHeader(Order order)
         {
