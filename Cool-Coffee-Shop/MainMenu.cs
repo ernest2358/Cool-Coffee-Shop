@@ -20,9 +20,12 @@ namespace Cool_Coffee_Shop
             {
                 Console.Clear();
                 Header.DrawHeader();
+                Header.DrawMainMenuOptions();
 
-                Console.WriteLine("Please make a selection between options 1-4");
-                Console.WriteLine("1 - Create an Order, 2 - Add a new product to menu, 3 - Remove a product from the menu 4 - Exit Coffee Shop App");
+                Console.Write("\nInput: ");
+
+                //Console.WriteLine("Please make a selection between options 1-4");
+                //Console.WriteLine("1 - Create an Order, 2 - Add a new product to menu, 3 - See the menu, 4 - Exit Coffee Shop App");
 
                 var userSelection = int.TryParse(Console.ReadLine(), out int result); 
                 switch (result)
@@ -31,10 +34,10 @@ namespace Cool_Coffee_Shop
                         CreateNewOrder();
                         break;
                     case 2:
-                        var seed = new SeedDB();
-                        seed.AddNewProduct();
+                        AddNewProduct();
                         break;
                     case 3:
+                        SeeTheMenu();
                         break;
                     case 4:
                         Console.WriteLine("Have a great day. Goodbye!!");
@@ -50,7 +53,20 @@ namespace Cool_Coffee_Shop
             var orderMenu = new OrderMenu(ListOfProducts);
             orderMenu.RunOrderMenu();
         }
-
+        private void SeeTheMenu()
+        {
+            Console.Clear();
+            Header.DrawHeader();
+            Header.DrawMenu(ListOfProducts);
+            Console.WriteLine("Press any key to continue: ");
+            Console.ReadKey();
+        }
+        private void AddNewProduct()
+        {
+            var seed = new SeedDB();
+            seed.AddNewProduct();
+            ListOfProducts = seed.Run();
+        }
     }
 
 }

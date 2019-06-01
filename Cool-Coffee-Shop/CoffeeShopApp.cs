@@ -8,17 +8,16 @@ namespace Cool_Coffee_Shop
     {
         public void Run()
         {
+            var header = new HeaderBar(64);
+            header.DrawHeader();
+
             var productList = CreateProductList();
             if (productList == null) return;
 
-            // Welcome message (Header block)
-            var header = new HeaderBar(64);
-            header.DrawHeader();
-            Console.WriteLine($"Please press enter to continue to the Main Menu:");
-
+            Console.WriteLine("Please press any key to continue to the Main Menu:");
             Console.ReadKey();
 
-            var mainMenu = new MainMenu(productList) ;
+            var mainMenu = new MainMenu(productList);
             mainMenu.RunMainMenu();
         }
         public List<Product> CreateProductList()
