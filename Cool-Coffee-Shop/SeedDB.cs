@@ -7,12 +7,10 @@ namespace Cool_Coffee_Shop
 {
     public class SeedDB
     {
-        // public string OutputDirectory { get; set; }
         public string DataFile { get; set; }
 
         public SeedDB()
         {
-            // OutputDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
             DataFile = "../../../../seeddata.txt";
         }
         public List<Product> Run()
@@ -46,20 +44,36 @@ namespace Cool_Coffee_Shop
         }
         public void AddNewProduct()
         {
-            Console.WriteLine("Adding new product"); // refactor this too.
-            Console.Write("What is the new product name: ");
-            var name = Console.ReadLine();
-            Console.Write("What is the new product category: ");
-            var category = Console.ReadLine();
-            Console.Write("What is the new product description: ");
-            var desc = Console.ReadLine();
-            Console.Write("What is the new product price: ");
-            var price = double.Parse(Console.ReadLine());
+            var newProducts = new List<string>();
+            do
+            {
+                Console.WriteLine("Adding new product");
+                Console.Write("What is the new product name: ");
+                var name = Console.ReadLine();
+                Console.Write("What is the new product category: ");
+                var category = Console.ReadLine();
+                Console.Write("What is the new product description: ");
+                var desc = Console.ReadLine();
+                Console.Write("What is the new product price: ");
+                var price = double.Parse(Console.ReadLine());
 
-            var newProduct = new Product(name, category, desc, price);
+                var newProduct = new Product(name, category, desc, price);
 
-            var product = new String($"\n{newProduct.Name},{newProduct.Cateogory},{newProduct.Description},{newProduct.Price.ToString()}");
-            File.AppendAllText(DataFile, product);
+                newProducts.Add(new string($"{newProduct.Name}, {newProduct.Cateogory}, {newProduct.Description}, {newProduct.Price.ToString()}"));
+            } while (KeepGoing("Would you like to add another product?"));
+
+            File.AppendAllLines(DataFile, newProducts);
+        }
+        private bool KeepGoing(string question)
+        {
+            Console.Write($"{question} ");
+            while (true)
+            {
+                var input = Console.ReadLine().ToLower();
+                if (input == "y") return true;
+                if (input == "n") return false;
+                Console.Write("Input error. Please enter y or n: ");
+            }
         }
     }
 }
