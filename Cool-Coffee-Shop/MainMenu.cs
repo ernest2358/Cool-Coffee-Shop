@@ -24,11 +24,8 @@ namespace Cool_Coffee_Shop
 
                 Console.Write("\nInput: ");
 
-                //Console.WriteLine("Please make a selection between options 1-4");
-                //Console.WriteLine("1 - Create an Order, 2 - Add a new product to menu, 3 - See the menu, 4 - Exit Coffee Shop App");
-
-                var userSelection = int.TryParse(Console.ReadLine(), out int result);
-                switch (result)
+                var userSelection = Common.GetInt(1, 4);
+                switch (userSelection)
                 {
                     case 1:
                         CreateNewOrder();

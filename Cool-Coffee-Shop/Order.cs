@@ -14,9 +14,8 @@ namespace Cool_Coffee_Shop
         public double SubTotal { get; set; }
         public double TotalOrder { get; set; }
         public decimal PaymentGeneric { get; set; } 
-        public int PaymentType { get; set; } // credit, check
+        public int PaymentType { get; set; }
         public static readonly double TaxRate = 0.06;
-        public double PaymentDetail { get; set; }
 
         public Order()
         {
@@ -29,17 +28,24 @@ namespace Cool_Coffee_Shop
         {
             OrderList.Add(new OrderLine(addedProduct, qty));
         }
-        //Right now Remove from order does nothing
-        //Attempted to print the current order and have the user select what they would like to remove but items in orderlist are not appearring. for and foreach loop
-        //Should it be a perimeter of type Product to remove the specific Product Item   
-        public void RemoveFromAnOrder() // ??
+        public void RemoveFromAnOrder()
         {
-            for (var i = 1; i <= OrderList.Count; i++)
+            if(OrderList.Count == 0)
             {
-                Console.WriteLine($"{ i} - { OrderList[i - 1].Item}");
+                Console.WriteLine("Error: No items in cart.\nPress any key to continue.");
+                Console.ReadKey();
+                return;
             }
+            if (OrderList.Count == 1)
+            {
+                OrderList.Remove(OrderList[0]);
+                Console.WriteLine("Item removed from cart.\nPress any key to continue.");
+                Console.ReadKey();
+                return;
+            }
+            Console.Write($"Which item would you like to remove? (1-{OrderList.Count}): ");
+            OrderList.Remove(OrderList[Common.GetInt(1, OrderList.Count) - 1]);
         }
-        //Get rid of above possibly and change Order Menu
         public void CalculateTotal()
         {
             CalculateSubTotal();
@@ -65,29 +71,26 @@ namespace Cool_Coffee_Shop
         }
         public void Pay()
         {
+            if(OrderList.Count == 0)
+            {
+                Console.WriteLine("Nothing in cart! Returning to main menu: ");
+                Console.ReadKey();
+                return;
+            }
+
             CalculateTotal();
             TotalOrder = Math.Round(TotalOrder, 2);
 
             var header = new HeaderBar(64);
             header.DrawCheckout(this);
+            header.DrawPaymentOptions();
              
-            // Console.WriteLine($"Your grand total is: {TotalOrder}");
             while (true)
             {
-                Console.WriteLine($"How would you like to pay for your order? Please select options 1-3: \n1 - Cash, 2 - Credit/Debit, 3 - Check");
-                //*** Maybe no need for Enum Payment Type, just ask for an int and switch  should follow?***
+                var paymentType = Common.GetInt(1, 3);
 
-                var paymentType = int.TryParse(Console.ReadLine(), out int result);
-
-                
-
-                //while (!int.TryParse(Console.ReadLine(), out int PaymentType))
-                //{
-                //    Console.WriteLine("Invalid Option, try again.");
-                //    paymentType = Console.ReadLine();
-                //}
-                PaymentType = result;
-                switch (result)
+                PaymentType = paymentType;
+                switch (paymentType)
                 {
                     case 1:
                         PayCash();
@@ -107,51 +110,41 @@ namespace Cool_Coffee_Shop
         }
         public void PayCash()
         {
-            double userPayCash, orderChange; // place holder
+            double userPayCash, orderChange;
             Console.Write("How much cash do you offer? ");
-            userPayCash = GetCash(); // get input from user, cash paid.
+            userPayCash = GetCash();
             Console.WriteLine($"Cash Received: ${userPayCash}");
             while (userPayCash < TotalOrder)
             {
-                /*Console.Write("How much cash do you offer? ");
-                userPayCash = GetCash(); // get input from user, cash paid.
-                Console.WriteLine($"Cash Received: ${userPayCash}");
-                if (userPayCash >= TotalOrder)
-                {
-                    orderChange = userPayCash - TotalOrder;
-                    Console.WriteLine($"Total Change: $" + orderChange);
-                    Console.ReadKey();
-                    return;
-                }*/
-                //else
-
                 Console.WriteLine("Insufficient funds.");
-                userPayCash = GetCash(); // get input from user, cash paid.
-
-                Console.ReadKey();
-
+                userPayCash = GetCash();
             }
             if (userPayCash >= TotalOrder)
             {
+                PaymentGeneric = (decimal)userPayCash;
                 orderChange = userPayCash - TotalOrder;
                 Console.WriteLine($"Total Change: $" + orderChange);
-                PrintReceipt();
-
+                Console.WriteLine($"Printing Receipt:");
                 Console.ReadKey();
-                PrintReceipt();
 
-                //return;
+                PrintReceipt();
+                Console.ReadKey();
             }
-            PrintReceipt();
         }
         private double GetCash()
         {
-            return double.Parse(Console.ReadLine());
+            while (true)
+            {
+                if(double.TryParse(Console.ReadLine(), out double result))
+                {
+                    return result;
+                }
+                Console.Write("Input Error. Please try again: ");
+            }
         }
         public void PayCredit()
         {
             string userCCNumber, userCVV, userCCDate;
-
             Console.Write("Enter the 16 Digit Card Number: ");
             var cardCheck = new Regex(@"^([\-\s]?[0-9]{4}){4}$");
             userCCNumber = Console.ReadLine();
@@ -161,16 +154,14 @@ namespace Cool_Coffee_Shop
                 Console.Write($"\nInvalid card number. \nEnter the 16 Digit Card Number: ");
                 userCCNumber = Console.ReadLine();
             }
-
             Console.Write("\nEnter Credit Card Expiration Date(mm/yyyy): ");
             var dateCheck = new Regex(@"^(0[1-9]|1[0-2])([/])(20[0-9]{2})$");
             userCCDate = Console.ReadLine();
             while (!dateCheck.IsMatch(userCCDate))
             {
-                Console.Write("\nInvalid month.  \nEnter the Expiration Date(mm/yyyy): ");
+                Console.Write("\nInvalid date.  \nEnter the Expiration Date(mm/yyyy): ");
                 userCCDate = Console.ReadLine();
             }
-
             Console.Write("\nEnter Credit Card CVV: ");
             var cvvCheck = new Regex(@"^\d{3}$");
             userCVV = Console.ReadLine();
@@ -179,15 +170,14 @@ namespace Cool_Coffee_Shop
                 Console.Write("\nInvalid CVV.  \nEnter 3 Digit CVV located on the back of the card: ");
                 userCVV = Console.ReadLine();
             }
-            Console.WriteLine("Payment accepted.");
-  
+            Console.WriteLine("Payment accepted. Printing receipt.");
+            Console.ReadKey();
             PrintReceipt();
             Console.ReadKey();
         }
         public void PayCheck()
         {
             string checkNumber;
-            double checkTotal;
             Console.Write("Enter the 4 digit check number: ");
             var checkVerify = new Regex(@"^\d{4}$");
             checkNumber = Console.ReadLine();
@@ -197,15 +187,8 @@ namespace Cool_Coffee_Shop
                 Console.Write("Invalid Entry. \nEnter the 4 digit check number: ");
                 checkNumber = Console.ReadLine();
             }
-            Console.Write("Enter Check Total: ");
-            checkTotal = Convert.ToDouble(Console.ReadLine());
-            while (checkTotal != TotalOrder)
-            {
-                Console.WriteLine("Totals do not match. Please verify total.");
-                checkTotal = Convert.ToDouble(Console.ReadLine());
-            }
-            Console.WriteLine("Your check payment has cleared");
-            
+            Console.WriteLine("Your check payment has cleared. Printing receipt.");
+            Console.ReadKey();
             PrintReceipt();
             Console.ReadKey();
         }
@@ -214,45 +197,10 @@ namespace Cool_Coffee_Shop
             Console.WriteLine($"Order {OrderID} has been cancelled. Press any key to return to main menu.");
             Console.ReadKey();
         }
-
         public void PrintReceipt()
         {
-            StringBuilder receipt = new StringBuilder("");
-            Console.WriteLine("--- Receipt ---");
-            foreach (var itemLine in OrderList)
-            {
-                Console.WriteLine
-               (
-                   "{0} {1} ${2} ea. ${3}",
-                   itemLine.Item.Name,
-                   itemLine.Qty,
-                   itemLine.Item.Price,
-                   itemLine.Item.Price * itemLine.Qty
-               );
-            }
-                switch (PaymentType) 
-                {
-                    case 1:
-                        Console.WriteLine("Cash Payment");
-                        break;
-                    case 2:
-                        Console.WriteLine("Credit/Debit Payment");
-                        Console.WriteLine("XXXXXXXXXXXX{0}", PaymentGeneric.ToString().Substring(12)); 
-                        break;
-                    case 3:
-                        Console.WriteLine("Check #{0}", PaymentGeneric);
-                        break;
-                    default:
-                        break;
-                }
-            
-            double change = CalculateChange(TotalOrder, (double)PaymentGeneric);
-            Console.WriteLine("Subtotal: ${0:0.00}", SubTotal);
-            Console.WriteLine("Tax: ${0:0.00}", CalculateTaxRate());
-            Console.WriteLine("Total: ${0:0.00}", TotalOrder);
-            //Console.WriteLine("Payment: ${0:0.00}", PaymentGeneric);//should show payment received
-            //Console.WriteLine("Your change is ${0: 0.00}", change);//should show exact change
-            //make sure this runs properly
+            var receiptPrinter = new HeaderBar(64);
+            receiptPrinter.PrintReceipt(this);
         }
     }
 }
