@@ -8,7 +8,6 @@ namespace Cool_Coffee_Shop
     {
         public Product Item { get; set; }
         public int Qty { get; set; }
-        //public string Customization { get; set; }
 
         public OrderLine(Product product, int qty)
         {

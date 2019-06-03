@@ -27,10 +27,8 @@ namespace Cool_Coffee_Shop
                 NewOrder.CalculateSubTotal();
                 Header.DrawHeader(NewOrder);
                 Header.DrawOrderMenuOptions();
-                //Console.WriteLine("Please make a selection between options 1-4");
-                //Console.WriteLine("1 - Add an item to order, 2 - Remove an item from order, 3 - Checkout, 4 - Cancel order, 5 - Show Cart");
-                var userSelection = int.TryParse(Console.ReadLine(), out int result); 
-                switch (result)
+                var userSelection = Common.GetInt(1, 5); 
+                switch (userSelection)
                 {
                     case 1:
                         Console.Clear();
@@ -43,7 +41,9 @@ namespace Cool_Coffee_Shop
                         NewOrder.AddToAnOrder(chosenProduct, quantity);
                         break;
                     case 2:
-                        // var removeItemFromOrder = (creat prop removed item)
+                        Console.Clear();
+                        Header.DrawHeader(NewOrder);
+                        Header.DrawCart(NewOrder);
                         NewOrder.RemoveFromAnOrder();
                         break;
                     case 3:
@@ -63,7 +63,7 @@ namespace Cool_Coffee_Shop
         }
         private Product ChooseProduct()
         {
-            SelectedItem = int.Parse(Console.ReadLine());
+            SelectedItem = Common.GetInt(1, ListOfProducts.Count);
             return ListOfProducts[SelectedItem - 1];
         }
         private int ChooseQty()

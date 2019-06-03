@@ -14,7 +14,7 @@ namespace Cool_Coffee_Shop
                 {
                     return result;
                 }
-                Console.Write($"Input error. Please enter an integer between {min} and {max}");
+                Console.Write($"Input error. Please enter an integer between {min} and {max}: ");
             }
         }
         public static bool KeepGoing(string question)

@@ -47,6 +47,19 @@ namespace Cool_Coffee_Shop
             Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
             Console.WriteLine($"+{new string('-', HeaderWidth - 2)}+");
         }
+        public void DrawPaymentOptions()
+        {
+            var left = new string($"|   How would you like to pay?");
+            var right = new string($"|");
+            Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
+            left = new string($"|       1 - Cash");
+            Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
+            left = new string($"|       2 - Credit/Debit");
+            Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
+            left = new string($"|       3 - Check");
+            Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
+            Console.WriteLine($"+{new string('-', HeaderWidth - 2)}+");
+        }
         public void DrawHeader(Order order)
         {
             Console.WriteLine($"+{new string('-', HeaderWidth - 2)}+");
@@ -79,6 +92,13 @@ namespace Cool_Coffee_Shop
         }
         public void DrawCart(Order order)
         {
+            if(order.OrderList.Count == 0)
+            {
+                var left = new string($"|   Nothing here!");
+                var right = new string($"|");
+                Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
+
+            }
             for (var i = 1; i <= order.OrderList.Count; i++)
             {
                 if (order.OrderList[i - 1].Qty == 1)
@@ -126,6 +146,40 @@ namespace Cool_Coffee_Shop
 
             Console.WriteLine($"+{new string('-', HeaderWidth - 2)}+");
 
+        }
+        public void PrintReceipt(Order order)
+        {
+            Console.WriteLine($"+{new string('-', HeaderWidth - 2)}+");
+            Console.WriteLine($"|{new string(' ', (HeaderWidth - order.OrderID.ToString().Length) / 2 - 5)}Order # {order.OrderID}{new string(' ', (HeaderWidth - order.OrderID.ToString().Length) / 2 - 5)}|");
+            Console.WriteLine($"|{new string(' ', (HeaderWidth - order.OrderID.ToString().Length) / 2 - 5)}--- Receipt ---{new string(' ', (HeaderWidth - order.OrderID.ToString().Length) / 2 - 5)}|");
+            Console.WriteLine($"|{new string(' ', HeaderWidth - 2)}|");
+            DrawCheckout(order);
+
+            string left = "|", right = "|";
+
+            switch (order.PaymentType)
+            {
+                case 1:
+                    left = "|               Cash:";
+                    right = $"${order.PaymentGeneric}   |";
+                    Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
+                    left = "|             Change:";
+                    right = new string($"${order.CalculateChange(order.TotalOrder, (double)order.PaymentGeneric)}   |");
+                    break;
+                case 2:
+                    left = "|   Credit/Debit Payment";
+                    right = $"XXXXXXXXXXXX{order.PaymentGeneric.ToString().Substring(12)}   |";
+                    break;
+                case 3: 
+                    left = $"|   Check #{order.PaymentGeneric}";
+                    break;
+                default:
+                    break;
+            }
+            Console.WriteLine($"{left}{new string(' ', HeaderWidth - left.Length - right.Length)}{right}");
+            Console.WriteLine($"|{new string(' ', HeaderWidth - 2)}|");
+            Console.WriteLine($"|{new string(' ', (HeaderWidth - order.OrderID.ToString().Length) / 2 - 5)}--- Order Closed ---{new string(' ', (HeaderWidth - order.OrderID.ToString().Length) / 2 - 5)}|");
+            Console.WriteLine($"+{new string('-', HeaderWidth - 2)}+");
         }
     }
 }
