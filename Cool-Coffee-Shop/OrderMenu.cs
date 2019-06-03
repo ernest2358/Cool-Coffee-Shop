@@ -10,7 +10,6 @@ namespace Cool_Coffee_Shop
         public int NumberOfItemsSelected { get; set; }
         public HeaderBar Header { get; set; }
         public Order NewOrder { get; set; }
-        //public int RemoveItem { get; set; }   this will be applied
 
         public OrderMenu(List<Product> productList)
         {
@@ -69,7 +68,6 @@ namespace Cool_Coffee_Shop
         private int ChooseQty()
         {
             Console.WriteLine($"Choose how many { ListOfProducts[SelectedItem - 1].Name } you would like?");
-            //***Validate user input int, if they put anything other than positive int returns 1
             var howMany = int.TryParse(Console.ReadLine(), out int result);
             if (howMany == false)
             {
