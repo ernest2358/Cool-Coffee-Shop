@@ -14,8 +14,9 @@ namespace Cool_Coffee_Shop
         public double SubTotal { get; set; }
         public double TotalOrder { get; set; }
         public decimal PaymentGeneric { get; set; } 
-        public int PaymentType { get; set; }
+        public int PaymentType { get; set; } 
         public static readonly double TaxRate = 0.06;
+        public double PaymentDetail { get; set; }
 
         public Order()
         {
@@ -28,23 +29,18 @@ namespace Cool_Coffee_Shop
         {
             OrderList.Add(new OrderLine(addedProduct, qty));
         }
-        public void RemoveFromAnOrder()
+        public void RemoveFromAnOrder() 
         {
-            if(OrderList.Count == 0)
-            {
-                Console.WriteLine("Error: No items in cart.\nPress any key to continue.");
-                Console.ReadKey();
-                return;
-            }
-            if (OrderList.Count == 1)
-            {
-                OrderList.Remove(OrderList[0]);
-                Console.WriteLine("Item removed from cart.\nPress any key to continue.");
-                Console.ReadKey();
-                return;
-            }
-            Console.Write($"Which item would you like to remove? (1-{OrderList.Count}): ");
-            OrderList.Remove(OrderList[Common.GetInt(1, OrderList.Count) - 1]);
+                Console.WriteLine($"Please select an item from 1-{OrderList.Count}");
+                var remove = int.Parse(Console.ReadLine());
+                if (remove > OrderList.Count)
+                {
+                    Console.WriteLine("Your selection is invalid please press enter to return to your order.");
+                    Console.ReadKey();
+                    return;
+                }
+                var chosenRemoval = OrderList[remove - 1];
+                OrderList.Remove(chosenRemoval);
         }
         public void CalculateTotal()
         {
@@ -71,26 +67,18 @@ namespace Cool_Coffee_Shop
         }
         public void Pay()
         {
-            if(OrderList.Count == 0)
-            {
-                Console.WriteLine("Nothing in cart! Returning to main menu: ");
-                Console.ReadKey();
-                return;
-            }
-
             CalculateTotal();
             TotalOrder = Math.Round(TotalOrder, 2);
 
             var header = new HeaderBar(64);
             header.DrawCheckout(this);
-            header.DrawPaymentOptions();
-             
             while (true)
             {
-                var paymentType = Common.GetInt(1, 3);
+                Console.WriteLine($"How would you like to pay for your order? Please select options 1-3: \n1 - Cash, 2 - Credit/Debit, 3 - Check");
 
-                PaymentType = paymentType;
-                switch (paymentType)
+                var paymentType = int.TryParse(Console.ReadLine(), out int result);
+                PaymentType = result;
+                switch (result)
                 {
                     case 1:
                         PayCash();
@@ -110,41 +98,35 @@ namespace Cool_Coffee_Shop
         }
         public void PayCash()
         {
-            double userPayCash, orderChange;
+            double userPayCash, orderChange; 
             Console.Write("How much cash do you offer? ");
-            userPayCash = GetCash();
+            userPayCash = GetCash(); 
             Console.WriteLine($"Cash Received: ${userPayCash}");
             while (userPayCash < TotalOrder)
             {
                 Console.WriteLine("Insufficient funds.");
-                userPayCash = GetCash();
+                userPayCash = GetCash(); 
+                Console.ReadKey();
             }
             if (userPayCash >= TotalOrder)
             {
-                PaymentGeneric = (decimal)userPayCash;
                 orderChange = userPayCash - TotalOrder;
                 Console.WriteLine($"Total Change: $" + orderChange);
-                Console.WriteLine($"Printing Receipt:");
-                Console.ReadKey();
-
                 PrintReceipt();
+
                 Console.ReadKey();
+                PrintReceipt();
             }
+            PrintReceipt();
         }
         private double GetCash()
         {
-            while (true)
-            {
-                if(double.TryParse(Console.ReadLine(), out double result))
-                {
-                    return result;
-                }
-                Console.Write("Input Error. Please try again: ");
-            }
+            return double.Parse(Console.ReadLine());
         }
         public void PayCredit()
         {
             string userCCNumber, userCVV, userCCDate;
+
             Console.Write("Enter the 16 Digit Card Number: ");
             var cardCheck = new Regex(@"^([\-\s]?[0-9]{4}){4}$");
             userCCNumber = Console.ReadLine();
@@ -154,14 +136,16 @@ namespace Cool_Coffee_Shop
                 Console.Write($"\nInvalid card number. \nEnter the 16 Digit Card Number: ");
                 userCCNumber = Console.ReadLine();
             }
+
             Console.Write("\nEnter Credit Card Expiration Date(mm/yyyy): ");
             var dateCheck = new Regex(@"^(0[1-9]|1[0-2])([/])(20[0-9]{2})$");
             userCCDate = Console.ReadLine();
             while (!dateCheck.IsMatch(userCCDate))
             {
-                Console.Write("\nInvalid date.  \nEnter the Expiration Date(mm/yyyy): ");
+                Console.Write("\nInvalid month.  \nEnter the Expiration Date(mm/yyyy): ");
                 userCCDate = Console.ReadLine();
             }
+
             Console.Write("\nEnter Credit Card CVV: ");
             var cvvCheck = new Regex(@"^\d{3}$");
             userCVV = Console.ReadLine();
@@ -170,14 +154,15 @@ namespace Cool_Coffee_Shop
                 Console.Write("\nInvalid CVV.  \nEnter 3 Digit CVV located on the back of the card: ");
                 userCVV = Console.ReadLine();
             }
-            Console.WriteLine("Payment accepted. Printing receipt.");
-            Console.ReadKey();
+            Console.WriteLine("Payment accepted.");
+  
             PrintReceipt();
             Console.ReadKey();
         }
         public void PayCheck()
         {
             string checkNumber;
+            double checkTotal;
             Console.Write("Enter the 4 digit check number: ");
             var checkVerify = new Regex(@"^\d{4}$");
             checkNumber = Console.ReadLine();
@@ -187,8 +172,15 @@ namespace Cool_Coffee_Shop
                 Console.Write("Invalid Entry. \nEnter the 4 digit check number: ");
                 checkNumber = Console.ReadLine();
             }
-            Console.WriteLine("Your check payment has cleared. Printing receipt.");
-            Console.ReadKey();
+            Console.Write("Enter Check Total: ");
+            checkTotal = Convert.ToDouble(Console.ReadLine());
+            while (checkTotal != TotalOrder)
+            {
+                Console.WriteLine("Totals do not match. Please verify total.");
+                checkTotal = Convert.ToDouble(Console.ReadLine());
+            }
+            Console.WriteLine("Your check payment has cleared");
+            
             PrintReceipt();
             Console.ReadKey();
         }
@@ -197,10 +189,42 @@ namespace Cool_Coffee_Shop
             Console.WriteLine($"Order {OrderID} has been cancelled. Press any key to return to main menu.");
             Console.ReadKey();
         }
+
         public void PrintReceipt()
         {
-            var receiptPrinter = new HeaderBar(64);
-            receiptPrinter.PrintReceipt(this);
+            StringBuilder receipt = new StringBuilder("");
+            Console.WriteLine("--- Receipt ---");
+            foreach (var itemLine in OrderList)
+            {
+                Console.WriteLine
+               (
+                   "{0} {1} ${2} ea. ${3}",
+                   itemLine.Item.Name,
+                   itemLine.Qty,
+                   itemLine.Item.Price,
+                   itemLine.Item.Price * itemLine.Qty
+               );
+            }
+                switch (PaymentType) 
+                {
+                    case 1:
+                        Console.WriteLine("Cash Payment");
+                        break;
+                    case 2:
+                        Console.WriteLine("Credit/Debit Payment");
+                        Console.WriteLine("XXXXXXXXXXXX{0}", PaymentGeneric.ToString().Substring(12)); 
+                        break;
+                    case 3:
+                        Console.WriteLine("Check #{0}", PaymentGeneric);
+                        break;
+                    default:
+                        break;
+                }
+            
+            double change = CalculateChange(TotalOrder, (double)PaymentGeneric);
+            Console.WriteLine("Subtotal: ${0:0.00}", SubTotal);
+            Console.WriteLine("Tax: ${0:0.00}", CalculateTaxRate());
+            Console.WriteLine("Total: ${0:0.00}", TotalOrder);
         }
     }
 }
